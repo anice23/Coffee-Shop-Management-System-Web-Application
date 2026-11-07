@@ -1,0 +1,29 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# .NET
+[Bb]in/
+[Oo]bj/
+
+# Angular
+node_modules/
+dist/
+.angular/
+
+# Secrets and environment variables
+.env
+.env.*
+!.env.example
+
+# Local configuration containing secrets
+**/appsettings.*.json
+!**/appsettings.json
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
