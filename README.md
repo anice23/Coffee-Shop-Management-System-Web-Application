@@ -124,7 +124,77 @@ Screenshots of the application are available in:
 
 
 
-`Frontend/coffee-shop-frontend/screenshots/`
+=## 📸 Application Screenshots
+
+
+
+\### 🔐 Authentication
+
+!\[Login](Frontend/coffee-shop-frontend/screenshots/login.png)
+
+
+
+\### 📊 Dashboard
+
+!\[Dashboard](Frontend/coffee-shop-frontend/screenshots/main-screen-Dashboard.png)
+
+
+
+\### 🛒 Point of Sale (POS)
+
+!\[POS](Frontend/coffee-shop-frontend/screenshots/pos.png)
+
+
+
+\### 📦 Products \& Categories Management
+
+!\[Categories Management](Frontend/coffee-shop-frontend/screenshots/categoriesManagement.png)
+
+
+
+\### 🧾 Orders Management
+
+!\[Orders Management](Frontend/coffee-shop-frontend/screenshots/ordersManagement1.png)
+
+
+
+!\[Orders Management Details](Frontend/coffee-shop-frontend/screenshots/ordersManagement2.png)
+
+
+
+!\[Order Example](Frontend/coffee-shop-frontend/screenshots/orderExemple.png)
+
+
+
+\### 🖨️ Receipt Printing
+
+!\[Printed Order](Frontend/coffee-shop-frontend/screenshots/printOrderExemple1.png)
+
+
+
+!\[Printed Order Details](Frontend/coffee-shop-frontend/screenshots/printOrderExemple2.png)
+
+
+
+\### 📈 Reports \& Analytics
+
+!\[Reports](Frontend/coffee-shop-frontend/screenshots/ReportsManagement.png)
+
+
+
+!\[Reports Details](Frontend/coffee-shop-frontend/screenshots/ReportsManagement2.png)
+
+
+
+\### ⚙️ Settings
+
+!\[Settings](Frontend/coffee-shop-frontend/screenshots/Settings.png)
+
+
+
+\### 👥 Users Management
+
+!\[Users Management](Frontend/coffee-shop-frontend/screenshots/UsersManagement.png)
 
 
 
