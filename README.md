@@ -1,290 +1,266 @@
-\# ☕ Coffee Shop Management System – Web Application
 
+# ☕ Coffee Shop Management System
 
+<p align="center">
+  <strong>A Full-Stack Coffee Shop Management System built with Angular and ASP.NET Core Web API.</strong>
+  <br />
+  Manage products, orders, users, inventory, sales, and reports through a modern web application.
+</p>
 
-A full-stack web application designed to manage coffee shop operations, built with \*\*Angular 21\*\*, \*\*ASP.NET Core 8 Web API\*\*, and \*\*SQL Server\*\*.
+<p align="center">
+  <img src="https://img.shields.io/badge/Angular-21-DD0031?logo=angular&logoColor=white" />
+  <img src="https://img.shields.io/badge/.NET-8-512BD4?logo=dotnet&logoColor=white" />
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/SQL%20Server-CC2927?logo=microsoftsqlserver&logoColor=white" />
+  <img src="https://img.shields.io/badge/Status-Completed-success" />
+</p>
 
+---
 
+## 📌 About The Project
 
-This project is a web-based version of a Coffee Shop Management System, developed to provide an integrated solution for daily coffee shop operations.
+Coffee Shop Management System is a full-stack web application designed to simplify and manage daily coffee shop operations.
 
+The application provides an Admin dashboard for managing the entire coffee shop and a Cashier interface for handling sales and viewing operational data.
 
+It was developed using **Angular 21** for the frontend and **ASP.NET Core 8 Web API** for the backend, following a layered architecture.
 
-\## 🛠️ Technologies
+## 🛠️ Technologies Used
 
+### 🎨 Frontend
+- Angular 21
+- TypeScript
+- HTML5
+- CSS3
+- RxJS
+- Angular Router
 
+### ⚙️ Backend
+- C#
+- ASP.NET Core 8 Web API
+- Entity Framework Core
+- RESTful API
+- JWT Authentication
+- Role-Based Authorization
 
-\### Frontend
+### 🗄️ Database
+- Microsoft SQL Server
+- Entity Framework Core
 
-\- Angular 21
+### 🔐 Security
+- JWT Authentication using HttpOnly Cookies
+- CSRF Protection
+- Role-Based Access Control (RBAC)
+- Backend-side validation
+- Secure API endpoints
 
-\- TypeScript
+## ✨ Main Features
 
-\- HTML5 \& CSS3
+### 🔑 Authentication & Authorization
+- Secure login and logout.
+- JWT authentication.
+- HttpOnly authentication cookies.
+- CSRF protection.
+- Role-based permissions (Admin / Cashier).
 
-\- Bootstrap / Custom CSS
+### 📊 Dashboard
+- Sales overview.
+- Revenue statistics.
+- Orders summary.
+- Low-stock alerts.
 
+### 🛒 Point of Sale (POS)
+- Browse available products.
+- Add products to the cart.
+- Manage order quantities.
+- Calculate totals.
+- Process customer orders.
+- Print receipts.
 
+### 📦 Product Management
+- Add new products.
+- Edit product information.
+- Upload product images.
+- Manage stock quantities.
+- Activate and deactivate products.
 
-\### Backend
+### 🗂️ Category Management
+- Create and update categories.
+- Organize products.
+- Manage category status.
 
-\- C#
+### 🧾 Order Management
+- View orders.
+- View order details.
+- Track transactions.
+- Print order receipts.
 
-\- ASP.NET Core 8 Web API
+### 👥 User Management
+- Create and manage users.
+- Assign Admin and Cashier roles.
+- Activate and deactivate accounts.
+- Manage user permissions.
 
-\- Entity Framework Core
+### 📈 Reports
+- Revenue reports.
+- Sales statistics.
+- Daily performance overview.
+- Visual charts.
 
-\- SQL Server
+### ⚙️ Settings
+- Configure coffee shop information.
+- Manage receipt details.
+- Configure low-stock threshold.
 
-\- JWT Authentication
+## 🔒 Role-Based Access Control
 
-\- RESTful API
+The application supports two roles:
 
+| Feature | Admin | Cashier |
+|---|:---:|:---:|
+| Dashboard | ✅ | ❌ |
+| POS | ✅ | ✅ |
+| View Products | ✅ | ✅ |
+| Add / Edit Products | ✅ | ❌ |
+| Manage Categories | ✅ | ❌ |
+| View Orders | ✅ | ✅ |
+| Manage Users | ✅ | ❌ |
+| Reports | ✅ | ❌ |
+| Settings | ✅ | ❌ |
 
+**Note:** Permissions are enforced on the backend, not only through the frontend interface.
 
-\## ✨ Main Features
+## 🖼️ Application Screenshots
 
+### 🔐 Login
+![Login](Frontend/coffee-shop-frontend/screenshots/login.png)
 
+### 📊 Dashboard
+![Dashboard](Frontend/coffee-shop-frontend/screenshots/main-screen-Dashboard.png)
 
-\- Authentication and role-based access control (Admin \& Cashier).
+### 🛒 Point of Sale
+![POS](Frontend/coffee-shop-frontend/screenshots/pos.png)
 
-\- Dashboard with business statistics.
+### 📦 Product Management
+![Products](Frontend/coffee-shop-frontend/screenshots/ProductsManagement.png)
 
-\- Point of Sale (POS) and checkout.
+### 🗂️ Category Management
+![Categories](Frontend/coffee-shop-frontend/screenshots/categoriesManagement.png)
 
-\- Product and category management.
+### 🧾 Order Management
+![Orders](Frontend/coffee-shop-frontend/screenshots/ordersManagement1.png)
 
-\- Order management and receipt printing.
+![Order Details](Frontend/coffee-shop-frontend/screenshots/ordersManagement2.png)
 
-\- Sales reports and analytics.
+### 🖨️ Receipt Printing
+![Receipt](Frontend/coffee-shop-frontend/screenshots/printOrderExemple1.png)
 
-\- User management.
+![Receipt Example](Frontend/coffee-shop-frontend/screenshots/printOrderExemple2.png)
 
-\- Coffee shop settings.
+### 👥 User Management
+![Users](Frontend/coffee-shop-frontend/screenshots/UsersManagement.png)
 
-\- Product image management.
+### 📈 Reports
+![Reports](Frontend/coffee-shop-frontend/screenshots/ReportsManagement.png)
 
+![Reports Details](Frontend/coffee-shop-frontend/screenshots/ReportsManagement2.png)
 
+### ⚙️ Settings
+![Settings](Frontend/coffee-shop-frontend/screenshots/Settings.png)
 
-\## 🔐 Security
-
-
-
-\- JWT authentication using HttpOnly cookies.
-
-\- CSRF protection.
-
-\- Role-based authorization.
-
-\- Backend validation and protected API endpoints.
-
-\- Sensitive configuration stored outside source control.
-
-
-
-\## 🏗️ Project Structure
-
-
+## 🏗️ Project Structure
 
 ```text
-
 Coffee-Shop-Management-System/
-
 │
-
-├── Backend/
-
-│   └── CoffeeShop.web/
-
-│       ├── CoffeeShop.API/
-
-│       ├── CoffeSystem\_Business/
-
-│       └── CoffeSystem\_DataAccess/
-
+├── 📁 Backend/
+│   └── 📁 CoffeeShop.web/
+│       ├── 📁 CoffeeShop.API/
+│       ├── 📁 CoffeSystem_Business/
+│       ├── 📁 CoffeSystem_DataAccess/
+│       └── 📄 CoffeeShop.web.slnx
 │
-
-├── Frontend/
-
-│   └── coffee-shop-frontend/
-
+├── 📁 Frontend/
+│   └── 📁 coffee-shop-frontend/
+│       ├── 📁 src/
+│       ├── 📁 screenshots/
+│       ├── 📄 package.json
+│       └── 📄 angular.json
 │
-
-└── README.md
-
+└── 📄 README.md
 ```
 
+## 🚀 Getting Started
 
+### 📋 Prerequisites
 
-\## 📸 Screenshots
+Make sure you have installed:
 
+- [Node.js](https://nodejs.org/)
+- [Angular CLI](https://angular.dev/tools/cli)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [SQL Server](https://www.microsoft.com/en-us/sql-server)
+- [Visual Studio](https://visualstudio.microsoft.com/) or Visual Studio Code
 
-
-Screenshots of the application are available in:
-
-
-
-=## 📸 Application Screenshots
-
-
-
-\### 🔐 Authentication
-
-!\[Login](Frontend/coffee-shop-frontend/screenshots/login.png)
-
-
-
-\### 📊 Dashboard
-
-!\[Dashboard](Frontend/coffee-shop-frontend/screenshots/main-screen-Dashboard.png)
-
-
-
-\### 🛒 Point of Sale (POS)
-
-!\[POS](Frontend/coffee-shop-frontend/screenshots/pos.png)
-
-
-
-\### 📦 Products \& Categories Management
-
-!\[Categories Management](Frontend/coffee-shop-frontend/screenshots/categoriesManagement.png)
-
-
-
-\### 🧾 Orders Management
-
-!\[Orders Management](Frontend/coffee-shop-frontend/screenshots/ordersManagement1.png)
-
-
-
-!\[Orders Management Details](Frontend/coffee-shop-frontend/screenshots/ordersManagement2.png)
-
-
-
-!\[Order Example](Frontend/coffee-shop-frontend/screenshots/orderExemple.png)
-
-
-
-\### 🖨️ Receipt Printing
-
-!\[Printed Order](Frontend/coffee-shop-frontend/screenshots/printOrderExemple1.png)
-
-
-
-!\[Printed Order Details](Frontend/coffee-shop-frontend/screenshots/printOrderExemple2.png)
-
-
-
-\### 📈 Reports \& Analytics
-
-!\[Reports](Frontend/coffee-shop-frontend/screenshots/ReportsManagement.png)
-
-
-
-!\[Reports Details](Frontend/coffee-shop-frontend/screenshots/ReportsManagement2.png)
-
-
-
-\### ⚙️ Settings
-
-!\[Settings](Frontend/coffee-shop-frontend/screenshots/Settings.png)
-
-
-
-\### 👥 Users Management
-
-!\[Users Management](Frontend/coffee-shop-frontend/screenshots/UsersManagement.png)
-
-
-
-\## 🚀 Getting Started
-
-
-
-\### Prerequisites
-
-\- .NET 8 SDK
-
-\- Node.js and npm
-
-\- SQL Server
-
-\- Angular CLI
-
-
-
-\### Backend Setup
-
-
-
-1\. Open the backend solution.
-
-2\. Configure the SQL Server connection string.
-
-3\. Configure JWT settings using .NET User Secrets.
-
-4\. Apply Entity Framework Core migrations if needed.
-
-5\. Run the ASP.NET Core API.
-
-
-
-\### Frontend Setup
-
-
-
-1\. Navigate to the Angular project:
-
-
+### 1️⃣ Clone the Repository
 
 ```bash
-
-cd Frontend/coffee-shop-frontend
-
+git clone https://github.com/anice23/Coffee-Shop-Management-System-Web-Application.git
 ```
 
+```bash
+cd Coffee-Shop-Management-System-Web-Application
+```
 
+### 2️⃣ Configure the Backend
 
-2\. Install dependencies:
+- Open the backend solution located in `Backend/CoffeeShop.web/`.
+- Configure your SQL Server connection string.
+- Configure the required authentication settings.
+- Apply the Entity Framework Core migrations if needed.
+- Run the ASP.NET Core API project.
 
+**Important:** Keep your database credentials and secret keys private. Do not commit sensitive configuration files.
 
+### 3️⃣ Run the Frontend
+
+Open a terminal inside:
 
 ```bash
+Frontend/coffee-shop-frontend
+```
 
+Install dependencies:
+
+```bash
 npm install
-
 ```
 
-
-
-3\. Start the development server:
-
-
+Start the Angular application:
 
 ```bash
-
 ng serve
-
 ```
 
+Open your browser at:
 
+```text
+http://localhost:4200
+```
 
-4\. Open `http://localhost:4200`.
+## 👨‍💻 Developer
 
-
-
-\## 👨‍💻 Developer
-
-
-
-\*\*Anis Chaabouni\*\*
-
-
+**Anis Chaabouni**
 
 Junior Fullstack Angular .NET Developer
 
+- 💻 GitHub: [anice23](https://github.com/anice23)
+- 📂 Project Repository: [Coffee Shop Management System](https://github.com/anice23/Coffee-Shop-Management-System-Web-Application)
 
+---
 
-GitHub: \[@anice23](https://github.com/anice23)
-
+<p align="center">
+  ☕ <strong>Built with passion, code, and coffee!</strong>
+  <br />
+  ⭐ If you like this project, consider giving it a star!
+</p>
