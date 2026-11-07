@@ -1,0 +1,276 @@
+
+<div class="categories-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Categories Management</h1>
+      <p>Manage your coffee shop categories</p>
+    </div>
+
+    <div class="category-count">
+      {{ filteredCategories.length }}
+      {{ filteredCategories.length === 1 ? 'Category' : 'Categories' }}
+    </div>
+  </div>
+
+  <div class="categories-toolbar">
+
+    <input
+      type="text"
+      placeholder="Search categories..."
+      aria-label="Search categories"
+      [(ngModel)]="searchText"
+    />
+
+    <div class="status-filter">
+      <label for="statusFilter">Filter by status:</label>
+
+      <select
+        id="statusFilter"
+        [(ngModel)]="statusFilter">
+
+        <option value="All">All Categories</option>
+        <option value="Active">Active Categories</option>
+        <option value="Inactive">Inactive Categories</option>
+
+      </select>
+    </div>
+
+    <button
+      type="button"
+      class="add-button"
+      [class.permission-denied-button]="!isAdmin"
+      [attr.aria-disabled]="!isAdmin"
+      [title]="!isAdmin ? 'Only Admin can add categories' : 'Add Category'"
+      (click)="isAdmin ? openAddForm() : openPermissionModal()">
+      + Add Category
+      @if (!isAdmin) {
+        🔒
+      }
+    </button>
+
+  </div>
+
+  @if (showAddForm) {
+    <div class="category-form">
+      <h2>Add New Category</h2>
+
+      <label for="newCategoryName">Category Name</label>
+
+      <input
+        id="newCategoryName"
+        type="text"
+        placeholder="Enter category name"
+        [(ngModel)]="newCategoryName"
+      />
+
+      <div class="form-group">
+        <label for="newCategoryDescription">Description</label>
+
+        <textarea
+          id="newCategoryDescription"
+          name="newCategoryDescription"
+          [(ngModel)]="newCategoryDescription"
+          placeholder="Enter category description..."
+          rows="3">
+        </textarea>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="save-button"
+          (click)="addCategory()">
+          Save Category
+        </button>
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cancelAddForm()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (selectedCategory) {
+    <div class="category-form">
+      <h2>Edit Category</h2>
+
+      <label for="editCategoryName">Category Name</label>
+
+      <input
+        id="editCategoryName"
+        type="text"
+        placeholder="Enter category name"
+        [(ngModel)]="editCategoryName"
+      />
+
+      <div class="form-group">
+        <label for="editCategoryDescription">Description</label>
+
+        <textarea
+          id="editCategoryDescription"
+          name="editCategoryDescription"
+          [(ngModel)]="editCategoryDescription"
+          placeholder="Enter category description..."
+          rows="3">
+        </textarea>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="save-button"
+          (click)="saveCategoryChanges()">
+          Save Changes
+        </button>
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cancelEditCategory()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  }
+
+  <div class="categories-table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Category Name</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (category of filteredCategories; track category.id) {
+          <tr>
+            <td>{{ category.id }}</td>
+
+            <td>{{ category.name }}</td>
+
+            <td>
+              <span
+                class="status-badge"
+                [class.inactive]="!category.isActive">
+                {{ category.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <td>
+              <!-- Edit -->
+              <button
+                type="button"
+                class="edit-button"
+                [class.permission-denied-button]="!isAdmin"
+                [attr.aria-disabled]="!isAdmin"
+                [title]="!isAdmin ? 'Only Admin can edit categories' : 'Edit Category'"
+                (click)="isAdmin ? editCategory(category) : openPermissionModal()">
+                Edit
+                @if (!isAdmin) {
+                  🔒
+                }
+              </button>
+
+              <!-- Deactivate / Reactivate -->
+              @if (category.isActive) {
+
+                <button
+                  type="button"
+                  class="btn-deactivate"
+                  [class.permission-denied-button]="!isAdmin"
+                  [attr.aria-disabled]="!isAdmin"
+                  [title]="!isAdmin ? 'Only Admin can deactivate categories' : 'Deactivate Category'"
+                  (click)="isAdmin ? deactivateCategory(category.id) : openPermissionModal()">
+                  Deactivate
+                  @if (!isAdmin) {
+                    🔒
+                  }
+                </button>
+
+              } @else {
+
+                <button
+                  type="button"
+                  class="btn-reactivate"
+                  [class.permission-denied-button]="!isAdmin"
+                  [attr.aria-disabled]="!isAdmin"
+                  [title]="!isAdmin ? 'Only Admin can restore categories' : 'Reactivate Category'"
+                  (click)="isAdmin ? reactivateCategory(category.id) : openPermissionModal()">
+                  <span class="btn-icon">↻</span>
+                  Reactivate
+                  @if (!isAdmin) {
+                    🔒
+                  }
+                </button>
+
+              }
+            </td>
+          </tr>
+
+        } @empty {
+          <tr>
+            <td colspan="4" class="empty-state">
+              No categories found.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Permission Denied Modal -->
+  @if (showPermissionModal) {
+    <div
+      class="permission-overlay"
+      (click)="closePermissionModal()">
+
+      <div
+        class="permission-modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="permission-title"
+        (click)="$event.stopPropagation()">
+
+        <div class="permission-icon">🔒</div>
+
+        <h2 id="permission-title">Access Denied</h2>
+
+        <p>
+          Sorry! You don't have permission to perform this action.
+        </p>
+
+        <div class="permission-message">
+          <strong>Admin Access Required</strong>
+
+          <span>
+            Please contact your administrator if you need access
+            to this feature.
+          </span>
+        </div>
+
+        <button
+          type="button"
+          class="permission-close-button"
+          (click)="closePermissionModal()">
+          Got it
+        </button>
+
+      </div>
+    </div>
+  }
+
+  <app-toast
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (closed)="onToastClosed()">
+  </app-toast>
+
+</div>

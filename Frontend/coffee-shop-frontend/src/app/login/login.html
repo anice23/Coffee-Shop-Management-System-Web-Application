@@ -1,0 +1,120 @@
+
+<div class="login-page">
+
+    <!-- Left Side: Coffee System Branding -->
+    <section class="brand-section">
+      <div class="brand-content">
+  
+        <div class="coffee-logo" aria-hidden="true">
+          <span>☕</span>
+        </div>
+  
+        <h1>Coffee System</h1>
+  
+        <p class="brand-tagline">Good Coffee · Better Days</p>
+  
+        <div class="brand-divider"></div>
+  
+        <div class="brand-features">
+          <div class="feature-item">
+            <span class="feature-icon" aria-hidden="true">☕</span>
+            <p>Manage your coffee shop with ease.</p>
+          </div>
+  
+          <div class="feature-item">
+            <span class="feature-icon" aria-hidden="true">✓</span>
+            <p>Track orders, manage inventory, and grow your business.</p>
+          </div>
+        </div>
+  
+      </div>
+    </section>
+  
+    <!-- Right Side: Login Form -->
+    <section class="login-section">
+      <div class="login-content">
+  
+        <div class="welcome-label">
+          <span>Welcome back</span>
+          <span aria-hidden="true">☕</span>
+        </div>
+  
+        <h2>Login</h2>
+  
+        <p class="subtitle">
+          Sign in to your account and continue managing your coffee shop.
+        </p>
+  
+        <form (ngSubmit)="login()">
+          <div class="form-group">
+            <label for="username">Username</label>
+  
+            <div class="input-wrapper">
+              <span class="input-icon" aria-hidden="true">✉</span>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                placeholder="Enter your username"
+                autocomplete="username"
+                [(ngModel)]="username"
+                [class.input-error]="errorMessage && !username.trim()"
+              />
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="password">Password</label>
+  
+            <div class="input-wrapper">
+              <span class="input-icon" aria-hidden="true">🔒</span>
+              <input
+             id="password"
+             name="password"
+             [type]="showPassword ? 'text' : 'password'"
+             placeholder="Enter your password"
+             autocomplete="current-password"
+             [(ngModel)]="password"
+             [class.input-error]="errorMessage && !password.trim()"
+/>
+
+<button
+  type="button"
+  class="toggle-password"
+  (click)="showPassword = !showPassword"
+  [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+>
+  {{ showPassword ? '🙈' : '👁️' }}
+</button>
+            </div>
+          </div>
+  
+          <button type="submit" class="login-button"[disabled]="isLoading">
+
+              @if (isLoading) {
+                Checking...
+           }  @else {
+             <span aria-hidden="true">➜</span> Login
+           }
+  
+
+</button>
+        </form>
+        @if (errorMessage) {
+          <p class="error-message">
+            {{ errorMessage }}
+          </p>
+        }
+        <div class="register-divider">
+          <span></span>
+          <p>login now</p>
+          <span></span>
+        </div>
+  
+      
+  
+      </div>
+    </section>
+  
+  </div>
+  

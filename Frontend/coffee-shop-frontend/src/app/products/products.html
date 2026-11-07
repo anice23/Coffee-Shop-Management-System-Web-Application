@@ -1,0 +1,405 @@
+
+<app-toast
+  [title]="toastTitle"
+  [message]="toastMessage"
+  [type]="toastType"
+  (closed)="toastMessage = ''">
+</app-toast>
+
+@if (showPermissionModal) {
+  <div class="permission-overlay" (click)="closePermissionModal()">
+
+    <div
+      class="permission-modal"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="permission-title"
+      (click)="$event.stopPropagation()">
+
+      <div class="permission-icon">
+        🔒
+      </div>
+
+      <h2 id="permission-title">Access Denied</h2>
+
+      <p>
+        Sorry! You don't have permission to perform this action.
+      </p>
+
+      <div class="permission-message">
+        <strong>Admin Access Required</strong>
+        <span>
+          Please contact your administrator if you need access
+          to this feature.
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="permission-close-button"
+        (click)="closePermissionModal()">
+        Got it
+      </button>
+
+    </div>
+  </div>
+}
+<div class="products-page">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1>Products</h1>
+      <p>Manage your coffee shop products</p>
+    </div>
+
+    <div class="header-actions">
+      <span class="products-count">
+        {{ filteredProducts.length }}
+        {{ filteredProducts.length === 1 ? 'Product' : 'Products' }}
+      </span>
+
+      <button
+      type="button"
+      class="add-button"
+      [class.permission-denied-button]="!isAdmin"
+      [attr.aria-disabled]="!isAdmin"
+      [title]="!isAdmin ? 'You do not have permission' : 'Add Product'"
+      (click)="isAdmin ? openAddProduct() : openPermissionModal()">
+    
+      + Add Product
+    
+      @if (!isAdmin) {
+        🔒
+      }
+    </button>
+    </div>
+  </div>
+
+  <!-- Add Product Form -->
+  @if (isAddingProduct) {
+    <div class="edit-form">
+      <h2>Add New Product</h2>
+
+      <label for="addName">Product Name</label>
+      <input
+        id="addName"
+        type="text"
+        [(ngModel)]="newProductName" />
+
+      <label for="addPrice">Price (DT)</label>
+      <input
+        id="addPrice"
+        type="number"
+        min="0.01"
+        step="0.01"
+        [(ngModel)]="newProductPrice" />
+
+      <label for="addStock">Stock Quantity</label>
+      <input
+        id="addStock"
+        type="number"
+        min="0"
+        step="1"
+        [(ngModel)]="newProductStockQuantity" />
+
+      <label for="addCategory">Category</label>
+      <select
+        id="addCategory"
+        [(ngModel)]="newProductCategoryId">
+
+        <option [ngValue]="0" disabled>Select a category</option>
+
+        @for (category of categories; track category.categoryId) {
+          <option [ngValue]="category.categoryId">
+            {{ category.name }}
+          </option>
+        }
+      </select>
+
+      <!-- Add Product Image -->
+      <label for="addImage">Product Image</label>
+
+      <input
+        id="addImage"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        (change)="onNewProductImageSelected($event)" />
+
+      @if (newProductImagePreview) {
+        <div class="image-preview">
+          <img
+            [src]="newProductImagePreview"
+            alt="New product image preview" />
+
+          <button
+            type="button"
+            class="remove-image-button"
+            (click)="removeNewProductImage()">
+            Remove Image
+          </button>
+        </div>
+      }
+
+      <!-- Add Form Actions -->
+      <div class="form-actions">
+        <button
+          type="button"
+          class="save-button"
+          (click)="saveNewProduct()">
+          Save Product
+        </button>
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cancelAddProduct()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  }
+
+  <!-- Edit Product Form -->
+  @if (selectedProduct) {
+    <div class="edit-form">
+      <h2>Edit Product</h2>
+
+      <!-- One Image Frame: Original or New Preview -->
+      <label>Product Image</label>
+
+      <div class="image-preview">
+        @if (editProductImagePreview) {
+          <img
+            [src]="editProductImagePreview"
+            [alt]="selectedProduct.name" />
+        } @else if (selectedProduct.imageUrl) {
+          <img
+            [src]="selectedProduct.imageUrl"
+            [alt]="selectedProduct.name" />
+        } @else {
+          <p>No image available for this product.</p>
+        }
+
+        @if (editProductImagePreview) {
+          <button
+            type="button"
+            class="remove-image-button"
+            (click)="cancelEditImageChange(editImageInput)">
+            Cancel Image Change
+          </button>
+        }
+      </div>
+
+      <label for="editImage">Change Product Image</label>
+
+      <input
+        #editImageInput
+        id="editImage"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        (change)="onEditProductImageSelected($event)" />
+
+      <label for="editName">Product Name</label>
+      <input
+        id="editName"
+        type="text"
+        [(ngModel)]="editName" />
+
+      <label for="editPrice">Price (DT)</label>
+      <input
+        id="editPrice"
+        type="number"
+        min="0"
+        [(ngModel)]="editPrice" />
+
+      <label for="editStock">Stock Quantity</label>
+      <input
+        id="editStock"
+        type="number"
+        min="0"
+        step="1"
+        [(ngModel)]="editStockQuantity" />
+
+      <label for="editCategory">Category</label>
+      <select
+        id="editCategory"
+        [(ngModel)]="editCategoryId">
+
+        <option [ngValue]="0" disabled>Select a category</option>
+
+        @for (category of categories; track category.categoryId) {
+          <option [ngValue]="category.categoryId">
+            {{ category.name }}
+          </option>
+        }
+      </select>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="save-button"
+          (click)="saveProductChanges()">
+          Save Changes
+        </button>
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="cancelEdit()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  }
+
+<!-- Search and Filters -->
+<div class="search-container">
+  <input
+    type="text"
+    placeholder="Search products..."
+    [(ngModel)]="searchText" />
+
+  <button
+    type="button"
+    (click)="searchText = ''">
+    Clear
+  </button>
+
+  <div class="status-filter">
+    <label for="statusFilter">Filter by status:</label>
+
+    <select
+      id="statusFilter"
+      [(ngModel)]="statusFilter">
+      <option value="All">All Products</option>
+      <option value="Active">Active Products</option>
+      <option value="Inactive">Inactive Products</option>
+    </select>
+  </div>
+
+  <div class="status-filter">
+    <label for="categoryFilter">Filter by category:</label>
+
+    <select
+      id="categoryFilter"
+      [(ngModel)]="categoryFilter">
+      <option value="All">All Categories</option>
+
+      @for (category of categories; track category.categoryId) {
+        <option [value]="category.name">
+          {{ category.name }}
+        </option>
+      }
+    </select>
+  </div>
+</div>
+
+  <!-- Products Table -->
+  <div class="products-table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (product of filteredProducts; track product.id) {
+          <tr>
+            <td>
+              <img
+                [src]="product.imageUrl"
+                [alt]="product.name"
+                class="product-image" />
+            </td>
+
+            <td class="product-name">
+              {{ product.name }}
+            </td>
+
+            <td>{{ product.category }}</td>
+
+            <td>{{ product.price.toFixed(2) }} DT</td>
+
+            <td>
+              <span
+                class="stock-badge"
+                [class.low-stock]="product.stockQuantity <= 5">
+                {{ product.stockQuantity }}
+              </span>
+            </td>
+
+            <td>
+              <span
+                class="status-badge"
+                [class.inactive]="!product.isActive">
+                {{ product.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+
+            <td class="actions-cell">
+              <button
+              type="button"
+              class="edit-button"
+              [class.permission-denied-button]="!isAdmin"
+              [attr.aria-disabled]="!isAdmin"
+              [title]="!isAdmin ? 'Only Admin can edit products' : 'Edit Product'"
+              (click)="isAdmin ? editProduct(product) : openPermissionModal()">
+            
+              Edit
+            
+              @if (!isAdmin) {
+                🔒
+              }
+            </button>
+
+              @if (product.isActive) {
+                <button
+                  type="button"
+                  class="deactivate-button"
+                  [class.permission-denied-button]="!isAdmin"
+                  [attr.aria-disabled]="!isAdmin"
+                  [title]="!isAdmin ? 'Only Admin can deactivate products' : 'Deactivate Product'"
+                  (click)="isAdmin ? deactivateProduct(product.id) : openPermissionModal()">
+
+                  Deactivate
+
+                 @if (!isAdmin) {
+                        🔒
+                      }
+               </button>
+              } @else {
+                <button
+                type="button"
+                class="activate-button"
+                [class.permission-denied-button]="!isAdmin"
+                [attr.aria-disabled]="!isAdmin"
+                [title]="!isAdmin ? 'Only Admin can restore products' : 'Activate Product'"
+                (click)="isAdmin ? activateProduct(product.id) : openPermissionModal()">
+                Activate
+                @if (!isAdmin) {
+                  🔒
+                }
+              </button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-message">
+              No products found.
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>

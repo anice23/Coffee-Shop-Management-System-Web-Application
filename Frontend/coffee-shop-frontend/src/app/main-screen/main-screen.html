@@ -1,0 +1,229 @@
+
+<div class="coffee-app">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">☕</span>
+      <div>
+        <h1>Coffee System</h1>
+        <p>Management</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-menu">
+      <p class="menu-label">MAIN MENU</p>
+
+      <a class="menu-item active" routerLink="/main">
+        <span>▦</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="menu-item" routerLink="/pos">
+        <span>🛒</span>
+        <span>POS</span>
+      </a>
+
+      <a class="menu-item" routerLink="/products">
+        <span>☕</span>
+        <span>Products</span>
+      </a>
+
+      <a class="menu-item" routerLink="/categories">
+        <span>▤</span>
+        <span>Categories</span>
+      </a>
+
+      <a class="menu-item" routerLink="/orders">
+        <span>🧾</span>
+        <span>Orders</span>
+      </a>
+
+      <p class="menu-label management-label">MANAGEMENT</p>
+
+      <a class="menu-item" routerLink="/reports">
+        <span>📊</span>
+        <span>Reports</span>
+      </a>
+
+      <a
+      class="menu-item"
+      [class.disabled]="!isAdmin"
+      [attr.aria-disabled]="!isAdmin"
+      [attr.title]="!isAdmin ? 'Only Admin can access this page' : null"
+      [routerLink]="isAdmin ? '/users' : null"
+      [style.pointer-events]="isAdmin ? 'auto' : 'none'"
+      [style.opacity]="isAdmin ? '1' : '0.5'">
+    
+      <span>👥</span>
+      <span>Users</span>
+      @if (!isAdmin) {
+        <span class="lock-icon">🔒</span>
+      }
+    </a>
+    <a
+    class="menu-item"
+    [class.disabled]="!isAdmin"
+    [attr.aria-disabled]="!isAdmin"
+    [attr.title]="!isAdmin ? 'Only Admin can access this page' : null"
+    [routerLink]="isAdmin ? '/settings' : null"
+    [style.pointer-events]="isAdmin ? 'auto' : 'none'"
+    [style.opacity]="isAdmin ? '1' : '0.5'">
+  
+    <span>⚙️</span>
+    <span>Settings</span>
+    @if (!isAdmin) {
+      <span class="lock-icon">🔒</span>
+    }
+  </a>
+
+      <button type="button" class="logout-button" (click)="logout()">
+        🚪 Logout
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-avatar">A</div>
+      <div class="user-info">
+        <strong>{{userName}}</strong>
+        <span>Coffee System</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <h2>Dashboard</h2>
+        <p>Welcome back! Here's what's happening today.</p>
+      </div>
+      <div class="topbar-badge">☕ Coffee Shop</div>
+    </header>
+
+    <section class="content">
+
+      <div class="dashboard-heading">
+        <h2>Overview</h2>
+        <p>Here's a summary of your coffee shop.</p>
+      </div>
+
+      @if (isLoading) {
+        <div class="loading-message">
+          Loading dashboard data...
+        </div>
+      } @else if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+          <button type="button" (click)="loadDashboard()">
+            Retry
+          </button>
+        </div>
+      } @else if (dashboard) {
+
+        <div class="stats-grid">
+
+          <article class="stat-card">
+            <div class="stat-icon revenue-icon">💰</div>
+            <p>Today's Revenue</p>
+            <h3>{{ dashboard.todayRevenue.toFixed(3) }} DT</h3>
+            <span>Revenue generated today</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon orders-icon">🧾</div>
+            <p>Today's Orders</p>
+            <h3>{{ dashboard.todayOrders }}</h3>
+            <span>Orders placed today</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon products-icon">☕</div>
+            <p>Total Orders</p>
+            <h3>{{ dashboard.totalOrders }}</h3>
+            <span>All registered orders</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon products-icon">📦</div>
+            <p>Total Products</p>
+            <h3>{{ dashboard.totalProducts }}</h3>
+            <span>Active products</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon stock-icon">⚠️</div>
+            <p>Low Stock</p>
+            <h3>{{ dashboard.lowStockProducts }}</h3>
+            <span>Products need attention</span>
+          </article>
+
+        </div>
+
+        <div class="dashboard-grid">
+
+          <section class="panel sales-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Sales Overview</h3>
+                <p>Revenue over the last 7 days</p>
+              </div>
+              <span class="panel-badge">Last 7 days</span>
+            </div>
+
+            <div class="sales-chart">
+              @for (sale of dashboard.weeklySales; track sale.date) {
+                <div class="chart-column">
+                  <span class="chart-value">
+                    {{ sale.revenue.toFixed(3) }} DT
+                  </span>
+
+                  <div class="chart-track">
+                    <div
+                      class="chart-bar"
+                      [style.height.%]="getSaleHeight(sale.revenue)">
+                    </div>
+                  </div>
+
+                  <span class="chart-day">
+                    {{ sale.date | date:'EEE' }}
+                  </span>
+                </div>
+              }
+            </div>
+          </section>
+
+          <section class="panel orders-panel">
+            <div class="panel-heading">
+              <div>
+                <h3>Recent Orders</h3>
+                <p>Your latest transactions</p>
+              </div>
+              <a routerLink="/orders">View all</a>
+            </div>
+
+            <div class="orders-list">
+              @for (order of dashboard.recentOrders; track order.orderId) {
+                <div class="recent-order">
+                  <div class="order-icon">🧾</div>
+
+                  <div class="order-info">
+                    <strong>Order #{{ order.orderId }}</strong>
+                    <span>{{ order.cashierName }}</span>
+                  </div>
+
+                  <div class="order-summary">
+                    <strong>
+                      {{ order.totalAmount.toFixed(3) }} DT
+                    </strong>
+                    <span class="order-status">
+                      {{ order.paymentMethod }}
+                    </span>
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+
+        </div>
+      }
+    </section>
+  </main>
+</div>

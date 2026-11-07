@@ -1,0 +1,33 @@
+
+@if (message) {
+    <div
+      class="toast"
+      [class.success]="type === 'success'"
+      [class.error]="type === 'error'"
+      role="alert"
+      aria-live="assertive"
+    >
+      <div class="toast-icon">
+        @if (type === 'success') {
+          ✓
+        } @else {
+          !
+        }
+      </div>
+  
+      <div class="toast-content">
+        <h3>{{ title }}</h3>
+        <p>{{ message }}</p>
+      </div>
+  
+      <button
+        type="button"
+        class="toast-close"
+        aria-label="Close notification"
+        (click)="close()"
+      >
+        ×
+      </button>
+    </div>
+  }
+  

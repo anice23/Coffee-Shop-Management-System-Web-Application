@@ -1,0 +1,182 @@
+
+<div class="reports-page">
+
+    <div class="page-header">
+      <div>
+        <h1>Reports Management</h1>
+        <p>Track sales performance and revenue.</p>
+      </div>
+    </div>
+  
+    <div class="date-filters">
+      <div class="date-group">
+        <label for="startDate">From</label>
+        <input
+          id="startDate"
+          type="date"
+          name="startDate"
+          [(ngModel)]="startDate"
+          (ngModelChange)="onDateFilterChange()">
+      </div>
+  
+      <div class="date-group">
+        <label for="endDate">To</label>
+        <input
+          id="endDate"
+          type="date"
+          name="endDate"
+          [(ngModel)]="endDate"
+          (ngModelChange)="onDateFilterChange()"
+          >
+      </div>
+    </div>
+  
+    <div class="summary-cards">
+      <div class="summary-card revenue-card">
+        <span>Total Revenue</span>
+        <strong>{{ totalRevenue.toFixed(2) }} DT</strong>
+      </div>
+  
+      <div class="summary-card">
+        <span>Total Orders</span>
+        <strong>{{ totalOrders }}</strong>
+      </div>
+  
+      <div class="summary-card">
+        <span>Average per Order</span>
+        <strong>{{ averageRevenuePerOrder.toFixed(2) }} DT</strong>
+      </div>
+  
+      <div class="summary-card">
+        <span>Best Sales Day</span>
+        @if (bestSalesDay) {
+          <strong>{{ bestSalesDay.revenue.toFixed(2) }} DT</strong>
+          <small>{{ bestSalesDay.date }}</small>
+        } @else {
+          <strong>—</strong>
+        }
+      </div>
+    </div>
+    
+<div class="chart-section">
+    <div class="section-header">
+      <h2>Daily Revenue</h2>
+      <span>Revenue in DT</span>
+    </div>
+  
+    <div class="bar-chart">
+      @for (report of filteredReports; track report.date) {
+        <div class="chart-column">
+          <span class="bar-value">
+            {{ report.revenue.toFixed(2) }}
+          </span>
+  
+          <div class="bar-area">
+            <div
+              class="revenue-bar"
+              [style.height.%]="
+                totalRevenue > 0
+                  ? (report.revenue / maxDailyRevenue) * 100
+                  : 0
+              "
+              [title]="report.revenue.toFixed(2) + ' DT'">
+            </div>
+          </div>
+  
+          <span class="bar-date">{{ report.date.slice(5) }}</span>
+        </div>
+      } @empty {
+        <p class="chart-empty">No sales data for this period.</p>
+      }
+    </div>
+  </div>
+  
+  
+    <div class="report-section">
+      <div class="section-header">
+        <h2>Daily Sales Report</h2>
+        <span>{{ filteredReports.length }} days</span>
+      </div>
+  
+      <div class="table-container">
+        <table class="reports-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Orders</th>
+              <th>Revenue</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            @for (report of filteredReports; track report.date) {
+              <tr>
+                <td>{{ report.date }}</td>
+                <td>{{ report.ordersCount }}</td>
+                <td class="revenue-value">
+                  {{ report.revenue.toFixed(2) }} DT
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="empty-state">
+                  No sales data found for this period.
+                </td>
+              </tr>
+            }
+          </tbody>
+  
+          @if (filteredReports.length > 0) {
+            <tfoot>
+              <tr>
+                <td>Total</td>
+                <td>{{ totalOrders }}</td>
+                <td>{{ totalRevenue.toFixed(2) }} DT</td>
+              </tr>
+            </tfoot>
+          }
+        </table>
+      </div>
+    </div>
+
+    <!--Best Product Selling-->
+    <div class="report-section best-products-section">
+
+      <div class="section-header">
+        <h2>Best Selling Products</h2>
+        <span>Top 5 Products</span>
+      </div>
+    
+      <div class="table-container">
+        <table class="reports-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity Sold</th>
+              <th>Total Revenue</th>
+            </tr>
+          </thead>
+    
+          <tbody>
+            @for (product of bestSellingProducts; track product.productName) {
+              <tr>
+                <td>{{ product.productName }}</td>
+                <td>{{ product.totalQuantity }}</td>
+                <td class="revenue-value">
+                  {{ product.totalRevenue.toFixed(2) }} DT
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="3" class="empty-state">
+                  No product sales found for this period.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    
+    </div>
+  </div>
+  

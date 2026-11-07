@@ -1,0 +1,14 @@
+
+<div class="product-card">
+  <h3>{{ product.name }}</h3>
+
+  <p>Price: {{ product.price }} DT</p>
+
+  <app-product-badge
+    [stockQuantity]="product.stockQuantity">
+  </app-product-badge>
+
+  <button [disabled]="product.stockQuantity<=0"(click)="addToCart.emit(product)">
+    Add to Cart
+  </button>
+</div>

@@ -1,0 +1,200 @@
+
+<div class="settings-page">
+
+    <div class="page-header">
+      <div>
+        <h1>Settings</h1>
+        <p>Manage your coffee shop information and preferences.</p>
+      </div>
+    </div>
+  
+    @if (savedMessage) {
+      <div class="success-message">
+        {{ savedMessage }}
+      </div>
+    }
+  
+    <form (ngSubmit)="saveSettings()">
+  
+      <section class="settings-card">
+        <div class="section-heading">
+          <div class="section-icon">☕</div>
+          <div>
+            <h2>Cafe Information</h2>
+            <p>Update the basic information about your coffee shop.</p>
+          </div>
+        </div>
+  
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="cafeName">Cafe Name *</label>
+            <input
+              id="cafeName"
+              type="text"
+              name="cafeName"
+              [(ngModel)]="settings.cafeName"
+              placeholder="Enter cafe name"
+              required>
+          </div>
+  
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              id="phoneNumber"
+              type="tel"
+              name="phoneNumber"
+              [(ngModel)]="settings.phoneNumber"
+              placeholder="Enter phone number">
+          </div>
+  
+          <div class="form-group full-width">
+            <label for="address">Address</label>
+            <input
+              id="address"
+              type="text"
+              name="address"
+              [(ngModel)]="settings.address"
+              placeholder="Enter cafe address">
+          </div>
+        </div>
+      </section>
+  
+      <section class="settings-card">
+        <div class="section-heading">
+          <div class="section-icon">🧾</div>
+          <div>
+            <h2>Receipt Settings</h2>
+            <p>Customize the message displayed at the bottom of receipts.</p>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="receiptFooter">Receipt Footer Message</label>
+          <textarea
+            id="receiptFooter"
+            name="receiptFooter"
+            [(ngModel)]="settings.receiptFooter"
+            rows="3"
+            placeholder="Enter receipt footer message">
+          </textarea>
+        </div>
+  
+        <div class="receipt-preview">
+          <span>Receipt Preview</span>
+          <p>{{ settings.cafeName || 'Coffee Shop' }}</p>
+          <small>{{ settings.receiptFooter || 'No footer message' }}</small>
+        </div>
+      </section>
+  
+      <section class="settings-card">
+        <div class="section-heading">
+          <div class="section-icon">📦</div>
+          <div>
+            <h2>Inventory Settings</h2>
+            <p>Configure when a product should be considered low in stock.</p>
+          </div>
+        </div>
+  
+        <div class="form-group threshold-group">
+          <label for="lowStockThreshold">Low Stock Threshold</label>
+          <input
+            id="lowStockThreshold"
+            type="number"
+            name="lowStockThreshold"
+            [(ngModel)]="settings.lowStockThreshold"
+            min="0"
+            step="1"
+            required>
+          <small>
+            Products with stock at or below this quantity will be considered low stock.
+          </small>
+        </div>
+      </section>
+  
+      <div class="settings-actions">
+        <button
+  type="submit"
+  class="save-button"
+  [disabled]="isSaving">
+
+  @if (isSaving) {
+    <span>Saving...</span>
+  } @else {
+    <span>Save Settings</span>
+  }
+
+</button>
+  
+        <button
+          type="button"
+          class="reset-button"
+          (click)="openResetModal()">
+          Reset Defaults
+        </button>
+      </div>
+  
+    </form>
+    
+@if (showSuccessModal) {
+  <div class="modal-overlay">
+    <div class="success-modal">
+
+      <div class="success-icon">
+        ✓
+      </div>
+
+      <h2>Settings Saved!</h2>
+
+      <p>
+        Your coffee shop settings have been updated successfully.
+      </p>
+
+      <button
+        type="button"
+        class="modal-close-button"
+        (click)="closeSuccessModal()">
+        Continue
+      </button>
+
+    </div>
+  </div>
+}
+
+@if (showResetModal) {
+  <div class="modal-overlay">
+    <div class="success-modal reset-modal">
+
+      <div class="reset-icon">
+        ↻
+      </div>
+
+      <h2>Reset Settings?</h2>
+
+      <p>
+        Are you sure you want to reload the last saved settings?
+        Any unsaved changes will be lost.
+      </p>
+
+      <div class="reset-modal-actions">
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="closeResetModal()">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          class="confirm-reset-button"
+          (click)="confirmReset()">
+          Confirm Reset
+        </button>
+      </div>
+
+    </div>
+  </div>
+}
+
+
+  </div>
+  

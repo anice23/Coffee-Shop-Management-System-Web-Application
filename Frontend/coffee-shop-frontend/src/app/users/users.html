@@ -1,0 +1,305 @@
+
+<div class="users-page">
+
+    <div class="page-header">
+      <div>
+        <h1>Users Management</h1>
+        <p>Manage system users, roles and account status.</p>
+      </div>
+  
+      <button type="button" class="add-button" (click)="openAddForm()">
+        + Add User
+      </button>
+    </div>
+  
+    <div class="summary-cards">
+      <div class="summary-card">
+        <span>Total Users</span>
+        <strong>{{ users.length + inactiveUsers.length }}</strong>      
+      </div>
+  
+      <div class="summary-card">
+        <span>Active Users</span>
+        <strong>{{ activeUsersCount }}</strong>
+      </div>
+  
+      <div class="summary-card">
+        <span>Inactive Users</span>
+        <strong>{{ inactiveUsersCount }}</strong>
+      </div>
+  
+      <div class="summary-card">
+        <span>Administrators</span>
+        <strong>{{ adminsCount }}</strong>
+      </div>
+  
+      <div class="summary-card">
+        <span>Cashiers</span>
+        <strong>{{ cashiersCount }}</strong>
+      </div>
+    </div>
+    @if (successMessage) {
+      <div class="success-notification">
+        <div class="success-icon">✓</div>
+        <div>
+          <h3>Success!</h3>
+          <p>{{ successMessage }}</p>
+        </div>
+        <button
+          type="button"
+          class="notification-close"
+          (click)="successMessage = ''">
+          ×
+        </button>
+      </div>
+    }
+    @if (showAddForm) {
+      <div class="user-form">
+        <h2>Add New User</h2>
+  
+        <form (ngSubmit)="addUser()">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="newFullName">Full Name</label>
+              <input
+                id="newFullName"
+                type="text"
+                name="newFullName"
+                [(ngModel)]="newFullName"
+                placeholder="Enter full name"
+                required>
+            </div>
+  
+            <div class="form-group">
+              <label for="newUsername">Username</label>
+              <input
+                id="newUsername"
+                type="text"
+                name="newUsername"
+                [(ngModel)]="newUsername"
+                placeholder="Enter username"
+                required>
+            </div>
+            <div class="form-group">
+              <label for="newPassword">Password</label>
+              <input
+                id="newPassword"
+                type="password"
+                name="newPassword"
+                [(ngModel)]="newPassword"
+                placeholder="Enter password"
+                required
+                minlength="6">
+            </div>
+  
+            <div class="form-group">
+              <label for="newRole">Role</label>
+              <select
+                id="newRole"
+                name="newRole"
+                [(ngModel)]="newRole">
+                <option value="Cashier">Cashier</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="form-actions">
+            <button type="submit" class="save-button">Add User</button>
+            <button
+              type="button"
+              class="cancel-button"
+              (click)="cancelAddForm()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+  
+    @if (selectedUser) {
+      <div class="user-form">
+        <h2>Edit User</h2>
+  
+        <form (ngSubmit)="saveUserChanges()">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="editFullName">Full Name</label>
+              <input
+                id="editFullName"
+                type="text"
+                name="editFullName"
+                [(ngModel)]="editFullName"
+                required>
+            </div>
+  
+            <div class="form-group">
+              <label for="editUsername">Username</label>
+              <input
+                id="editUsername"
+                type="text"
+                name="editUsername"
+                [(ngModel)]="editUsername"
+                required>
+            </div>
+  
+            <div class="form-group">
+              <label for="editRole">Role</label>
+              <select
+                id="editRole"
+                name="editRole"
+                [(ngModel)]="editRole">
+                <option value="Cashier">Cashier</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+            <!-- New Password -->
+           <div class="form-group">
+           <label for="editNewPassword">New Password</label>
+
+           <input id="editNewPassword" type="password" name="editNewPassword" [(ngModel)]="editNewPassword" placeholder="Leave empty to keep current password" minlength="6">
+          </div>
+
+              <!-- Confirm Password -->
+             <div class="form-group">
+                <label for="confirmPassword">Confirm New Password</label>
+
+                  <input id="confirmPassword" type="password" name="confirmPassword"[(ngModel)]="confirmPassword"placeholder="Confirm new password">
+              </div>
+
+          </div>
+  
+          <div class="form-actions">
+            <button type="submit" class="save-button">Save Changes</button>
+            <button
+              type="button"
+              class="cancel-button"
+              (click)="cancelEditUser()">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+  
+    <!-- Search and Filters -->
+<div class="search-container">
+
+  <input
+    type="text"
+    placeholder="Search users..."
+    [(ngModel)]="searchText" />
+
+  <button
+    type="button"
+    (click)="searchText = ''">
+    Clear
+  </button>
+
+  <div class="status-filter">
+    <label for="statusFilter">Filter by status:</label>
+
+    <select
+      id="statusFilter"
+      [(ngModel)]="statusFilter">
+      <option value="All">All Users</option>
+      <option value="Active">Active Users</option>
+      <option value="Inactive">Inactive Users</option>
+    </select>
+  </div>
+
+  <div class="status-filter">
+    <label for="roleFilter">Filter by role:</label>
+
+    <select
+      id="roleFilter"
+      [(ngModel)]="roleFilter">
+      <option value="All">All Roles</option>
+      <option value="Admin">Admins</option>
+      <option value="Cashier">Cashiers</option>
+    </select>
+  </div>
+
+</div>
+  
+    <div class="table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          @for (user of filteredUsers; track user.id) {
+            <tr>
+              <td>#{{ user.id }}</td>
+              <td>{{ user.fullName }}</td>
+              <td>{{ user.username }}</td>
+  
+              <td>
+                <span class="role-badge" [class.admin]="user.role === 'Admin'">
+                  {{ user.role }}
+                </span>
+              </td>
+  
+              <td>
+                <span
+                  class="status-badge"
+                  [class.inactive]="!user.isActive">
+                  {{ user.isActive ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+  
+              <td>
+                <div class="action-buttons">
+
+                  @if (user.isActive) {
+                
+                    <button
+                      type="button"
+                      class="edit-button"
+                      (click)="editUser(user)">
+                      Edit
+                    </button>
+                
+                    <button
+                      type="button"
+                      class="deactivate-button"
+                      [disabled]="user.isSystemUser"
+                      (click)="deactivateUser(user.id)">
+                      Deactivate
+                    </button>
+                
+                  } @else {
+                
+                    <button
+                      type="button"
+                      class="activate-button"
+                      (click)="activateUser(user.id)">
+                      Restore
+                    </button>
+                
+                  }
+                
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state">
+                No users found.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  
+  </div>
+  

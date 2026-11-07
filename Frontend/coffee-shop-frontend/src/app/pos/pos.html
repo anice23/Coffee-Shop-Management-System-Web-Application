@@ -1,0 +1,278 @@
+
+<div class="pos-page">
+
+  <header class="pos-header">
+    <div>
+      <h1>☕ Point of Sale</h1>
+      <p>Choose products and create a new order.</p>
+    </div>
+    <span class="cart-counter">🛒 {{ totalItems }} items</span>
+  </header>
+
+  <div class="pos-layout">
+
+    <section class="products-section">
+      <h2>Our Products</h2>
+      <div class="product-filters">
+
+        <!-- Search by product name -->
+        <div class="search-box">
+          <input
+            type="text"
+            placeholder="🔍 Search products..."
+            [(ngModel)]="searchText">
+        </div>
+      
+        <!-- Filter by category -->
+        <div class="category-filter">
+          <select [(ngModel)]="selectedCategory">
+            <option value="All">All Categories</option>
+      
+            @for (category of categories; track category.categoryId) {
+              <option [value]="category.name">
+                {{ category.name }}
+              </option>
+            }
+          </select>
+        </div>
+      
+      </div>
+
+      <div class="products-grid">
+        @for (product of filteredProducts; track product.id)  {
+          <article class="product-card">
+            <img [src]="product.image" [alt]="product.name">
+
+            <div class="product-info">
+              <h3>{{ product.name }}</h3>
+              <p class="product-price">{{ product.price.toFixed(2) }} DT</p>
+              <p class="product-stock">Stock: {{ product.stock }}</p>
+
+              <button
+                type="button"
+                [disabled]="product.stock <= 0"
+                (click)="addToCart(product)">
+                Add to Cart +
+              </button>
+            </div>
+          </article>
+        } @empty {
+          <div class="no-products">
+            <p>🔍 No products found.</p>
+            <span>Try another product name or category.</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="cart-section">
+      <div class="cart-heading">
+        <h2>🛒 Current Order</h2>
+        <button
+          type="button"
+          class="clear-button"
+          [disabled]="cart.length === 0"
+          (click)="clearCart()">
+          Clear
+        </button>
+      </div>
+
+      @if (cart.length === 0) {
+        <div class="empty-cart">
+          <p>☕ Your cart is empty</p>
+          <span>Add a product to get started.</span>
+        </div>
+      } @else {
+        <div class="cart-items">
+          @for (item of cart; track item.product.id) {
+            <article class="cart-item">
+              <div class="cart-item-info">
+                <h3>{{ item.product.name }}</h3>
+                <p>{{ item.product.price.toFixed(2) }} DT each</p>
+                <strong>
+                  {{ (item.product.price * item.quantity).toFixed(2) }} DT
+                </strong>
+              </div>
+
+              <div class="quantity-controls">
+                <button
+                  type="button"
+                  (click)="decreaseQuantity(item)">
+                  −
+                </button>
+
+                <span>{{ item.quantity }}</span>
+
+                <button
+                  type="button"
+                  [disabled]="item.quantity >= item.product.stock"
+                  (click)="increaseQuantity(item)">
+                  +
+                </button>
+              </div>
+
+              <button
+                type="button"
+                class="remove-button"
+                aria-label="Remove product"
+                (click)="removeFromCart(item)">
+                ×
+              </button>
+            </article>
+          }
+        </div>
+      }
+
+      <div class="payment-section">
+        <h3>Payment Method</h3>
+
+        <div class="payment-options">
+          <label [class.selected]="paymentMethod === 'Cash'">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="Cash"
+              [checked]="paymentMethod === 'Cash'"
+              (change)="paymentMethod = 'Cash'">
+            💵 Cash
+          </label>
+
+          <label [class.selected]="paymentMethod === 'Card'">
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="Card"
+              [checked]="paymentMethod === 'Card'"
+              (change)="paymentMethod = 'Card'">
+            💳 Card
+          </label>
+        </div>
+      </div>
+
+      @if (lastSaleMessage) {
+        <div class="sale-success">
+          {{ lastSaleMessage }}
+        </div>
+      }
+
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Total Items</span>
+          <strong>{{ totalItems }}</strong>
+        </div>
+
+        <div class="summary-row total-row">
+          <span>Total Amount</span>
+          <strong>{{ totalAmount.toFixed(2) }} DT</strong>
+        </div>
+
+        <button
+          type="button"
+          class="checkout-button"
+          [disabled]="cart.length === 0"
+          (click)="openConfirmationModal()">
+          Complete Sale
+        </button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+@if (lastInvoice) {
+  <section class="invoice-section">
+    <div class="invoice-actions">
+      <h2>Invoice #{{ lastInvoice.id }}</h2>
+
+      <button
+        type="button"
+        class="print-button"
+        (click)="printInvoice()">
+        🖨️ Print Invoice
+      </button>
+    </div>
+
+    <div id="print-invoice" class="invoice-paper">
+      <header class="invoice-header">
+        <h1>Coffee Shop</h1>
+        <p>Thank you for visiting us!</p>
+      </header>
+
+      <div class="invoice-meta">
+        <p><strong>Invoice:</strong> #{{ lastInvoice.id }}</p>
+        <p><strong>Date:</strong> {{ lastInvoice.date.toLocaleString() }}</p>
+        <p><strong>Payment:</strong> {{ lastInvoice.paymentMethod }}</p>
+      </div>
+
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (item of lastInvoice.items; track item.productName) {
+            <tr>
+              <td>{{ item.productName }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.unitPrice.toFixed(2) }} DT</td>
+              <td>{{ (item.quantity * item.unitPrice).toFixed(2) }} DT</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="invoice-total">
+        <strong>Total:</strong>
+        <strong>{{ lastInvoice.total.toFixed(2) }} DT</strong>
+      </div>
+
+      <footer class="invoice-footer">
+        <p>Thank you for your purchase!</p>
+        <p>See you again ☕</p>
+      </footer>
+    </div>
+  </section>
+}
+
+@if (showConfirmationModal) {
+  <div class="modal-overlay" (click)="closeConfirmationModal()">
+    <div
+      class="confirmation-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-icon">☕</div>
+
+      <h2>Complete Your Order?</h2>
+
+      <p>Are you sure you want to complete this order?</p>
+
+      <div class="modal-total">
+        <span>Total Amount</span>
+        <strong>{{ totalAmount.toFixed(2) }} DT</strong>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="cancel-modal-button"
+          (click)="closeConfirmationModal()">
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          [disabled]="isProcessingOrder"
+          class="confirm-modal-button"
+          (click)="completeSale()">
+          Yes, Complete Sale
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

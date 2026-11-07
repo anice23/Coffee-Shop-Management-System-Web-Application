@@ -1,0 +1,71 @@
+
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #f5f1e8;
+    font-family: Arial, sans-serif;
+    color: #33251f;
+  }
+  
+  .coffee-app {
+    min-height: 100vh;
+  }
+  
+  .header {
+    background-color: #4b2e24;
+    color: white;
+    padding: 32px;
+    text-align: center;
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 36px;
+  }
+  
+  .header p {
+    margin-bottom: 0;
+    color: #ead9ce;
+  }
+  
+  .content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 24px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px #00000012;
+  }
+  
+  .content h2 {
+    color: #4b2e24;
+  }
+  
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  
+@media (max-width: 600px) {
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .content {
+      margin: 20px 12px;
+      padding: 16px;
+    }
+  }
+  
+  .error-message {
+    color: #b91c1c;
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  
+  

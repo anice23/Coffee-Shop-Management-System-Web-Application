@@ -1,0 +1,442 @@
+
+:host {
+    display: block;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #3e2723;
+  }
+  
+  .login-page {
+    display: flex;
+    min-height: 100vh;
+    background: #f8f3eb;
+  }
+  
+  /* Left Side: Branding */
+  .brand-section {
+    flex: 0 0 35%;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 36px 28px;
+    color: #fffaf3;
+  
+    /* Ready for our coffee background image */
+    background:
+      linear-gradient(
+        145deg,
+        rgba(40, 22, 17, 0.88),
+        rgba(78, 52, 46, 0.80)
+      ),
+      url('/images/coffee-background.jpg') center / cover no-repeat,
+      #4e342e;
+  }
+  
+  .brand-content {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .coffee-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 22px;
+    border: 1px solid rgba(255, 250, 243, 0.55);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    font-size: 2.7rem;
+  }
+  
+  .brand-content h1 {
+    margin: 0 0 12px;
+    font-size: 2.15rem;
+    letter-spacing: 0.3px;
+  }
+  
+  .brand-tagline {
+    margin: 0;
+    color: #ead6c1;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .brand-divider {
+    width: 58px;
+    height: 4px;
+    margin: 28px auto;
+    border-radius: 4px;
+    background: #c58b58;
+  }
+  
+  .brand-features {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  
+  .feature-icon {
+    flex: 0 0 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 250, 243, 0.10);
+    color: #f3d5b5;
+    font-size: 1.4rem;
+  }
+  
+  .feature-item p {
+    margin: 0;
+    color: #f4e8dc;
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+  
+  /* Right Side: Login Form */
+  .login-section {
+    flex: 1;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 7%;
+    background:
+      radial-gradient(
+        circle at top right,
+        #fffdf9,
+        #f8f3eb 72%
+      );
+  }
+  
+  .login-content {
+    width: 100%;
+    max-width: 430px;
+  }
+  
+  .welcome-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 30px;
+    color: #8d6e63;
+    font-size: 0.9rem;
+  }
+  
+  .login-content h2 {
+    margin: 0 0 12px;
+    color: #3e2723;
+    font-size: 2.4rem;
+    letter-spacing: -0.6px;
+  }
+  
+  .subtitle {
+    margin: 0 0 30px;
+    color: #7b6b62;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  
+  /* Input Fields */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 22px;
+  }
+  
+  .form-group label {
+    color: #4e342e;
+    font-size: 0.93rem;
+    font-weight: 600;
+  }
+  
+  .input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 15px;
+    border: 1px solid #dfd0c0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.78);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .input-wrapper:focus-within {
+    border-color: #8d6e63;
+    box-shadow: 0 0 0 4px rgba(141, 110, 99, 0.12);
+  }
+  
+  .input-icon {
+    flex: 0 0 auto;
+    color: #8d6e63;
+    font-size: 1.15rem;
+  }
+  
+  .input-wrapper input {
+    width: 100%;
+    min-width: 0;
+    padding: 16px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #3e2723;
+    font: inherit;
+  }
+  
+  .input-wrapper input::placeholder {
+    color: #a69a91;
+  }
+  
+  /* Login Button */
+  .login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    margin-top: 8px;
+    padding: 16px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6d4c41, #4e342e);
+    color: #fffaf3;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(78, 52, 46, 0.16);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .login-button span {
+    font-size: 1.3rem;
+  }
+  
+  .login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 22px rgba(78, 52, 46, 0.23);
+  }
+  
+  .login-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Register Section */
+  .register-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 28px 0 18px;
+  }
+  
+  .register-divider span {
+    flex: 1;
+    height: 1px;
+    background: #dfd0c0;
+  }
+  
+  .register-divider p {
+    margin: 0;
+    color: #8d6e63;
+    font-size: 0.9rem;
+  }
+  
+  .register-text {
+    margin: 0;
+    color: #7b6b62;
+    text-align: center;
+    font-size: 0.93rem;
+  }
+  
+  .register-text a {
+    color: #6d4c41;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .register-text a:hover {
+    color: #3e2723;
+    text-decoration: underline;
+  }
+  
+  /* Tablet and Mobile */
+  @media (max-width: 768px) {
+    .login-page {
+      flex-direction: column;
+    }
+  
+    .brand-section {
+      flex: none;
+      padding: 28px 22px;
+    }
+  
+    .brand-content h1 {
+      font-size: 1.8rem;
+    }
+  
+    .coffee-logo {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 14px;
+      font-size: 2.2rem;
+    }
+  
+    .brand-divider {
+      margin: 18px auto;
+    }
+  
+    .brand-features {
+      max-width: 340px;
+      margin: 0 auto;
+      gap: 12px;
+    }
+  
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      flex-basis: 36px;
+    }
+  
+    .login-section {
+      flex: 1;
+      padding: 36px 24px;
+    }
+  
+    .welcome-label {
+      margin-bottom: 22px;
+    }
+  
+    .login-content h2 {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .brand-section {
+      padding: 24px 18px;
+    }
+  
+    .brand-content h1 {
+      font-size: 1.6rem;
+    }
+  
+    .login-section {
+      padding: 28px 18px;
+    }
+  
+    .login-content h2 {
+      font-size: 1.8rem;
+    }
+  
+    .subtitle {
+      font-size: 0.94rem;
+    }
+  }
+  
+/* Password visibility toggle */
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input {
+  flex: 1;
+}
+
+.toggle-password {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #795548;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggle-password:hover {
+  background-color: #f1e7dc;
+}
+
+.toggle-password:focus-visible {
+  outline: 2px solid #8d6e63;
+  outline-offset: 2px;
+}
+
+.error-message {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background-color: #fff0ef;
+  color: #b42318;
+  border: 1px solid #f5c2c0;
+  border-left: 4px solid #c0392b;
+  border-radius: 8px;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+
+  animation: error-appear 0.25s ease-out;
+}
+
+.error-message::before {
+  content: "⚠";
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+@keyframes error-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Invalid input styling */
+.input-error {
+  border: 1px solid #c0392b !important;
+  background-color: #fff8f7;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-error:focus {
+  border-color: #c0392b !important;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.18);
+  outline: none;
+}
+
